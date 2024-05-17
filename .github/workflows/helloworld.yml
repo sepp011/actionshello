@@ -1,0 +1,17 @@
+name: Hello World  # specifying the name
+on: 
+  pull_request: # defining trigger
+    
+    types: [opened]  # the actions only kick off if a pull request has been opened in featurea branch
+
+  # issues:
+  #   types:
+  #     - opened # runs when any issues open
+
+  # schedule:
+  #   - cron: '8 8-18 * * 1-5' # trigger at certain time/schedule
+    
+  # workflow_dispatch:  # to have the option of manually kickoff action  on github
+
+  # for trigger running on more than one condition [pull_request, pull, etc, etc]
+    
