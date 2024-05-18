@@ -27,7 +27,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: startup  # if this job requires startup job to complete fist for dependency.
     steps:
-      - run: gh pr comment $PR_URL --body "Thanks for your PR. We will review shortly"
+      - name: Comment on PR
+        run: gh pr comment $PR_URL --body "Thanks for your PR. We will review shortly"
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
+      - name: Check for Buttons
+        run: ./.github/scripts/checker.sh
+        env: 
+          FILE: ./src/components/Buttons.js
