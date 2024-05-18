@@ -1,0 +1,38 @@
+name: Hello World  # specifying the name
+on: 
+  pull_request: # defining trigger
+    
+    types: [opened]  # the actions only kick off if a pull request has been opened in featurea branch
+
+  # issues:
+  #   types:
+  #     - opened # runs when any issues open
+
+  # schedule:
+  #   - cron: '8 8-18 * * 1-5' # trigger at certain time/schedule
+    
+  # workflow_dispatch:  # to have the option of manually kickoff action  on github
+
+  # for trigger running on more than one condition [pull_request, pull, etc, etc]
+    
+jobs:
+  startup:          # job 1
+    name: Run startup script
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "hello world"
+
+  build:             # job 2 
+    name: Here is my build task
+    runs-on: ubuntu-latest
+    needs: startup  # if this job requires startup job to complete fist for dependency.
+    steps:
+      - name: Comment on PR
+        run: gh pr comment $PR_URL --body "Thanks for your PR. We will review shortly"
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+      - name: Check for Buttons
+        run: ./.github/scripts/checker.sh
+        env: 
+          FILE: ./src/components/Buttons.js
