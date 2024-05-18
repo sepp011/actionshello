@@ -25,6 +25,10 @@ jobs:
   build:             # job 2 
     name: Here is my build task
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
     needs: startup  # if this job requires startup job to complete fist for dependency.
     steps:
       - name: Comment on PR
@@ -32,7 +36,13 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
+      - name: Checkeout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Check for Buttons
         run: ./.github/scripts/checker.sh
         env: 
           FILE: ./src/components/Buttons.js
+
+# test test test testy test.
